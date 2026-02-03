@@ -116,7 +116,7 @@ Key components:
 
 ## Open Decisions
 
-- [ ] Daily or weekly frequency?
+- [x] ~~Daily or weekly frequency?~~ **DAILY** (DTF = Daily Tech Feed)
 - [ ] Voice/character?
 - [ ] Story count per episode?
 - [ ] Overlap handling with HN?

@@ -16,7 +16,7 @@ AI and singularity news roundup sourced from Reddit communities and tech luminar
 | **Tagline** | Dispatches from the edge |
 | **Focus** | AI, ML, Singularity, Acceleration |
 | **Sources** | Reddit communities + Tech luminaries |
-| **Format** | TBD (daily or weekly roundup) |
+| **Format** | Daily roundup |
 | **Voice** | TBD |
 
 ---
@@ -149,7 +149,7 @@ Most content is crap. Filtering criteria:
 
 ## Open Questions
 
-1. **Frequency:** Daily or weekly? (Weekly might allow better curation)
+1. ~~**Frequency:** Daily or weekly?~~ **DECIDED: Daily** (DTF = Daily Tech Feed)
 2. **Length:** How many stories? 5? 10? Variable?
 3. **Voice:** Same as DTFHN? Different character?
 4. **Overlap:** How to handle stories that also appear on HN?
