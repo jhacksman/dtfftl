@@ -13,7 +13,6 @@ Default voice: `forbin` (same as dtfhn).
 
 ## Key Conventions
 - Pipeline pattern is fixed: fetch → LanceDB → script generation → TTS → stitch → R2 upload.
-- Source fetchers are stubbed until real integrations are added.
 - Use `python3` for CLI execution on macOS.
 - Avoid committing generated episode outputs; they live under `data/`.
 
@@ -36,6 +35,17 @@ DTF:FTL/
 python3 -m src.pipeline --test --no-store
 ```
 
+## Running (Live)
+```bash
+export REDDIT_CLIENT_ID=...
+export REDDIT_CLIENT_SECRET=...
+export REDDIT_USER_AGENT="dtfftl/0.1 by your_username"
+
+python3 -m src.pipeline --live
+```
+
 ## Lessons Learned
-- Keep pipeline runnable in stub mode so the skeleton can be validated without external services.
-- Add real API integrations behind a `--live` flag to preserve deterministic tests.
+- AlphaXiv has no stable public API; scrape `https://www.alphaxiv.org/explore` and enrich with arXiv abstracts.
+- Reddit read-only access via PRAW requires `REDDIT_CLIENT_ID` and `REDDIT_CLIENT_SECRET`.
+- TTS uses quato `/speak` with voice `forbin` and expects a WAV (`RIFF`) payload.
+- LanceDB embeddings are generated via sentence-transformers; set `DTFFTL_EMBEDDINGS=openai` to use OpenAI.
