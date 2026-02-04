@@ -1,70 +1,55 @@
 # PLAN.md - DTF:FTL (Daily Tech Feed: From The Labs)
 
-## Status: PLANNING
+## Status: INTEGRATION
 **Last Updated:** 2026-02-04
 
 ## Goals
-- Scaffold DTF:FTL by cloning the dtfhn structure and adapting it for AI/Singularity sources.
-- Preserve the pipeline pattern: fetch → LanceDB → script generation → TTS → stitch → R2 upload.
-- Provide working local stubs so the pipeline can run in `--test` mode without external services.
+- Wire real integrations for Reddit, AlphaXiv, LanceDB embeddings, and TTS.
+- Preserve dtfhn patterns for storage, script generation, and audio rendering.
+- Deliver working `--live` mode with dedup + usage tracking.
 
 ## Scope (This Iteration)
-- Mirror dtfhn directory structure with minimal, functional modules and scripts.
-- Implement source fetcher stubs:
-  - Reddit (r/singularity, r/LocalLLaMA, r/Accelerate)
-  - AlphaXiv trending prefilter
-  - Luminaries (Twitter/blogs) stub
-- Implement pipeline skeleton that:
-  - Loads stories from stubs
-  - Stores to LanceDB when available (optional)
-  - Generates simple scripts and interstitials
-  - Writes an episode manifest + episode text
-- Provide README + CLAUDE project conventions.
-- Add basic tests to validate stubbed pipeline output.
+- Real Reddit fetch via PRAW or httpx with 24h top/hot posts.
+- Real AlphaXiv trending scraping or API integration.
+- LanceDB schema + embedding generation + dedup + used-in-episode tracking.
+- TTS client calling quato server and rendering WAV segments.
+- Tests updated to reflect real integrations (with safe fallbacks/mocks).
 
 ## Non-Goals (This Iteration)
-- Real Reddit/AlphaXiv API integrations
-- Full TTS / R2 upload integration
-- High-quality script generation
+- New narrative structure or rewrite of script generation logic.
+- Distribution changes (R2/publishing) beyond what already exists.
 
 ## Deliverables
-1. `PLAN.md` (this file)
-2. Directory structure mirroring dtfhn
-3. Stubbed source fetchers (Reddit API, AlphaXiv, luminaries)
-4. `CLAUDE.md` with rules/lessons
-5. `README.md` with project overview and usage
+1. Working `--live` mode with real data sources
+2. LanceDB storage with embeddings + dedup + usage tracking
+3. TTS client that renders WAV segments
+4. Updated `CLAUDE.md` with patterns + lessons
+5. All tests passing
 
 ## Implementation Plan
-1. **Scaffold structure**
-   - Create `src/`, `scripts/`, `templates/`, `docs/`, `test/`, `tests/`, `characters/`, `research/` to match dtfhn layout.
-   - Add `.gitkeep` where needed.
+1. **Study dtfhn patterns**
+   - Identify Reddit, LanceDB, embeddings, and TTS client implementations.
 
-2. **Core modules**
-   - `src/models.py`: shared dataclasses (Story, SourceMeta).
-   - `src/reddit.py`: stubbed reddit fetcher returning Story list.
-   - `src/alphaxiv.py`: stubbed trending fetcher.
-   - `src/luminaries.py`: stubbed twitter/blog fetcher.
-   - `src/storage.py`: thin LanceDB wrapper with JSON fallback for test mode.
-   - `src/generator.py`: simple script + interstitial generator.
-   - `src/tts.py`: placeholder client with a no-op test mode.
-   - `src/audio.py`: placeholder stitch/transcode stubs.
-   - `src/pipeline.py`: orchestrates full pipeline with `--test` and `--no-store` options.
+2. **Reddit integration**
+   - Implement real fetch with rate limit handling and 24h filters.
+   - Add config entries for `REDDIT_CLIENT_ID` and `REDDIT_CLIENT_SECRET`.
 
-3. **Scripts**
-   - `scripts/scrape_and_load.py`: fetch + store stories.
-   - `scripts/generate_episode_audio.py`: stub TTS + stitch.
-   - `scripts/run_episode.sh`: shell entrypoint mirroring dtfhn.
-   - `scripts/upload_to_r2.py`: stub upload.
+3. **AlphaXiv integration**
+   - Implement trending scrape/API with required fields.
 
-4. **Docs**
-   - Update `README.md` for DTF:FTL.
-   - Replace `CLAUDE.md` with new conventions and lessons.
+4. **LanceDB + embeddings**
+   - Mirror dtfhn schema and embedding generation.
+   - Add URL/arxiv_id dedup and used-in-episode tracking.
 
-5. **Verify**
-   - Run a local test: `python -m src.pipeline --test --no-store`.
-   - Run pytest for minimal test coverage.
+5. **TTS client**
+   - Implement quato `/speak` client for voice `forbin`.
+
+6. **Verify**
+   - Run tests and live-mode smoke test.
+
+7. **Document**
+   - Update `CLAUDE.md` with patterns and lessons.
 
 ## Risks / Unknowns
-- LanceDB availability in the environment; will keep fallback storage.
-- Actual API clients and auth for Reddit/AlphaXiv/Twitter will be added later.
-
+- AlphaXiv may lack an official API; scraping could change.
+- Reddit auth limits or misconfigured credentials in env.
