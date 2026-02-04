@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import datetime as dt
 
 from src.pipeline import collect_stories
@@ -9,8 +10,17 @@ from src.storage import store_stories_batch, StorageUnavailable
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--live", action="store_true", help="Use live source integrations")
+    args = parser.parse_args()
+
     episode_date = dt.date.today().isoformat()
-    stories = collect_stories(reddit_limit=2, alphaxiv_limit=2, luminary_limit=1, use_stub=True)
+    stories = collect_stories(
+        reddit_limit=2,
+        alphaxiv_limit=2,
+        luminary_limit=1,
+        use_stub=not args.live,
+    )
     try:
         store_stories_batch(stories, episode_date, use_lancedb=True)
     except StorageUnavailable:

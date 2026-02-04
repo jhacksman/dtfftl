@@ -42,7 +42,10 @@ def collect_stories(
     stories: list[Story] = []
     stories.extend(fetch_reddit_stories(limit_per_subreddit=reddit_limit, use_stub=use_stub))
     stories.extend(fetch_trending(limit=alphaxiv_limit, use_stub=use_stub))
-    stories.extend(fetch_luminary_posts(limit=luminary_limit, use_stub=use_stub))
+    try:
+        stories.extend(fetch_luminary_posts(limit=luminary_limit, use_stub=use_stub))
+    except NotImplementedError:
+        pass
     return stories
 
 

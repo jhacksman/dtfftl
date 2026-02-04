@@ -23,7 +23,9 @@ def main() -> None:
         text = segment_path.read_text(encoding="utf-8")
         segments.append((name, text))
 
-    wav_outputs = text_to_speech_parallel(segments, episode_dir / "audio")
+    wav_outputs, failures = text_to_speech_parallel(segments, episode_dir / "audio")
+    if failures:
+        raise SystemExit(f"TTS failed for segments: {list(failures.keys())}")
     stitched = stitch_wavs(wav_outputs, episode_dir / "episode.wav")
     transcode_to_mp3(stitched, episode_dir / "episode.mp3")
 
