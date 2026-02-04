@@ -1,0 +1,9 @@
+# Vector storage
+lancedb>=0.4.0
+pyarrow>=14.0.0
+
+# HTTP requests
+requests>=2.31.0
+
+# Utilities
+python-dateutil>=2.9.0

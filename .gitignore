@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Data outputs
+data/episodes/
+data/vectors/
+data/*.json
+
+episodes/
+transcripts/
