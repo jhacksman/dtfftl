@@ -15,8 +15,14 @@
 - TTS client calling quato server and rendering WAV segments.
 - Tests updated to reflect real integrations (with safe fallbacks/mocks).
 
+## Format
+**Two-host dialogue** between Stephen (mentor) and Philip (mentee):
+- Stephen: stephen_fry voice — explains technical concepts, provides context
+- Philip: philip_fry voice — asks clarifying questions, makes analogies
+
+Scripts use `STEPHEN:` and `PHILIP:` prefixes. Each line is rendered separately with the appropriate voice, then stitched together.
+
 ## Non-Goals (This Iteration)
-- New narrative structure or rewrite of script generation logic.
 - Distribution changes (R2/publishing) beyond what already exists.
 
 ## Deliverables
@@ -42,7 +48,10 @@
    - Add URL/arxiv_id dedup and used-in-episode tracking.
 
 5. **TTS client**
-   - Implement quato `/speak` client for voice `forbin`.
+   - Implement quato `/speak` client with multi-voice support
+   - Parse scripts for STEPHEN:/PHILIP: prefixes
+   - Route to stephen_fry or philip_fry voices accordingly
+   - Stitch segments in order with brief pauses
 
 6. **Verify**
    - Run tests and live-mode smoke test.
